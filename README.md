@@ -1,4 +1,4 @@
-# Matrix-Editor-for-OpenRGB
+# Matrix Editor for OpenRGB
 A Simple tool to update date, time, weather and custom text for OpenRGB Effect Plugin Custom Text Effect for Matrix
 
 ![IMG_6649](https://user-images.githubusercontent.com/11488961/192109628-3b2b8f4d-0806-4384-bbed-4b9b81c62a8f.JPG)
