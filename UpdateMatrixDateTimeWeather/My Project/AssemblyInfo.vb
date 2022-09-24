@@ -8,11 +8,11 @@ Imports System.Runtime.InteropServices
 
 ' Review the values of the assembly attributes
 
-<Assembly: AssemblyTitle("UpdateMatrixDateTimeWeather")>
-<Assembly: AssemblyDescription("")>
+<Assembly: AssemblyTitle("Matrix Editor")>
+<Assembly: AssemblyDescription("A Simple tool to update date, time, weather and custom text for OpenRGB Effect Plugin Text Effect for Matrix")>
 <Assembly: AssemblyCompany("")>
-<Assembly: AssemblyProduct("UpdateMatrixDateTimeWeather")>
-<Assembly: AssemblyCopyright("Copyright ©  2022")>
+<Assembly: AssemblyProduct("Matrix Editor")>
+<Assembly: AssemblyCopyright("Copyright © 2022 Zettabyte Technology")>
 <Assembly: AssemblyTrademark("")>
 
 <Assembly: ComVisible(False)>
