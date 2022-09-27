@@ -85,6 +85,16 @@ Public Class frmMain
                     .txtInterval.Text = ts.Interval
                 End With
                 newCT.Show()
+            Case TextType.Countdown
+                Dim newCT As New frmAddCountdown
+                With newCT
+                    .Text = "Edit Countdown"
+                    .EditMode = True
+                    .txtDateFormat.Text = ts.TextString
+                    .dtpDate.Value = ts.DateTime
+                    .txtInterval.Text = ts.Interval
+                End With
+                newCT.Show()
         End Select
         Me.Hide()
     End Sub
@@ -104,6 +114,11 @@ Public Class frmMain
                     Dim stringBuilder As String = nextTS.TextString.Replace("<temp>", $"{Helper.openMeteo.Temperature}°C").Replace("<weather>", Helper.openMeteo.WeatherName).
                         Replace("<code>", Helper.openMeteo.WeatherCode).Replace("<speed>", $"{Helper.openMeteo.WindSpeed}Km/h").Replace("<direction>", $"{Helper.openMeteo.WindDirection}°")
 
+                    SaveFile(stringBuilder)
+                Case TextType.Countdown
+                    Dim timeSpan As TimeSpan = (nextTS.DateTime - Now)
+                    Dim stringBuilder As String = nextTS.TextString.Replace("<day>", timeSpan.Days).Replace("<hour>", timeSpan.Hours).Replace("<minute>", timeSpan.Minutes).
+                        Replace("<second>", timeSpan.Seconds).Replace("<millisecond>", timeSpan.Milliseconds).Replace("<tick>", timeSpan.Ticks)
                     SaveFile(stringBuilder)
             End Select
             Timer1.Interval = nextTS.Interval
@@ -205,6 +220,16 @@ Public Class frmMain
                     .txtInterval.Text = ts.Interval
                 End With
                 newCT.Show()
+            Case TextType.Countdown
+                Dim newCT As New frmAddCountdown
+                With newCT
+                    .Text = "Edit Countdown"
+                    .EditMode = True
+                    .txtDateFormat.Text = ts.TextString
+                    .dtpDate.Value = ts.DateTime
+                    .txtInterval.Text = ts.Interval
+                End With
+                newCT.Show()
         End Select
         Me.Hide()
     End Sub
@@ -259,5 +284,19 @@ Public Class frmMain
 
     Private Sub SettingsToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SettingsToolStripMenuItem.Click
         frmSetting.Show()
+    End Sub
+
+    Private Sub CountdownToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles CountdownToolStripMenuItem.Click
+        Dim newCT As New frmAddCountdown
+        With newCT
+            .Text = "Add Countdown"
+            .EditMode = False
+            .txtDateFormat.Text = "dd HH:mm:ss"
+            .txtInterval.Text = 5000
+            .dtpDate.Value = Now
+            .dtpDate.MinDate = Now
+        End With
+        newCT.Show()
+        Hide()
     End Sub
 End Class

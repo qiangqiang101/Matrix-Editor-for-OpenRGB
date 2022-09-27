@@ -36,8 +36,9 @@
 
     Private Sub CreateShortcutInStartUp()
         Try
-            Dim regKey = My.Computer.Registry.LocalMachine.OpenSubKey("SOFTWARE\Microsoft\Windows\CurrentVersion\Run", True)
-            regKey.SetValue(Application.ProductName, $"{Application.ExecutablePath}")
+            Dim regKey = My.Computer.Registry.CurrentUser.OpenSubKey("SOFTWARE\Microsoft\Windows\CurrentVersion\Run", True)
+            regKey.SetValue(Application.ProductName, Application.ExecutablePath, Microsoft.Win32.RegistryValueKind.String)
+            regKey.Flush()
             regKey.Close()
         Catch ex As Exception
         End Try
@@ -45,7 +46,7 @@
 
     Private Sub DeleteShortcutInStartup()
         Try
-            Dim regKey = My.Computer.Registry.LocalMachine.OpenSubKey("SOFTWARE\Microsoft\Windows\CurrentVersion\Run", True)
+            Dim regKey = My.Computer.Registry.CurrentUser.OpenSubKey("SOFTWARE\Microsoft\Windows\CurrentVersion\Run", True)
             regKey.DeleteValue(Application.ProductName)
             regKey.Close()
         Catch ex As Exception

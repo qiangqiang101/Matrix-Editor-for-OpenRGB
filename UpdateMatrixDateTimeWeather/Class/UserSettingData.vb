@@ -83,6 +83,7 @@ Public Structure TextStyles
     Public TextType As TextType
     Public TextString As String
     Public Interval As Integer
+    Public DateTime As Date
 
 End Structure
 
@@ -90,4 +91,5 @@ Public Enum TextType
     Datetime
     Weather
     CustomText
+    Countdown
 End Enum

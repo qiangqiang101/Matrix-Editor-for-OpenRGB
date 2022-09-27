@@ -54,6 +54,8 @@ Module Helper
                 Return "Date Time"
             Case TextType.Weather
                 Return "Weather"
+            Case TextType.Countdown
+                Return "Countdown"
             Case Else
                 Return "Unknown"
         End Select

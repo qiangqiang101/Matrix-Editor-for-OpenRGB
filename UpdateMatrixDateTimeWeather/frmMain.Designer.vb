@@ -40,6 +40,7 @@ Partial Class frmMain
         Me.chText = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
         Me.chDuration = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
         Me.niNotify = New System.Windows.Forms.NotifyIcon(Me.components)
+        Me.CountdownToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuStrip1.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -62,7 +63,7 @@ Partial Class frmMain
         '
         'AddToolStripMenuItem
         '
-        Me.AddToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.TextToolStripMenuItem, Me.DateTimeToolStripMenuItem, Me.WeatherToolStripMenuItem})
+        Me.AddToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.TextToolStripMenuItem, Me.DateTimeToolStripMenuItem, Me.WeatherToolStripMenuItem, Me.CountdownToolStripMenuItem})
         Me.AddToolStripMenuItem.Name = "AddToolStripMenuItem"
         Me.AddToolStripMenuItem.Size = New System.Drawing.Size(41, 20)
         Me.AddToolStripMenuItem.Text = "Add"
@@ -70,19 +71,19 @@ Partial Class frmMain
         'TextToolStripMenuItem
         '
         Me.TextToolStripMenuItem.Name = "TextToolStripMenuItem"
-        Me.TextToolStripMenuItem.Size = New System.Drawing.Size(127, 22)
+        Me.TextToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
         Me.TextToolStripMenuItem.Text = "Text"
         '
         'DateTimeToolStripMenuItem
         '
         Me.DateTimeToolStripMenuItem.Name = "DateTimeToolStripMenuItem"
-        Me.DateTimeToolStripMenuItem.Size = New System.Drawing.Size(127, 22)
+        Me.DateTimeToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
         Me.DateTimeToolStripMenuItem.Text = "Date Time"
         '
         'WeatherToolStripMenuItem
         '
         Me.WeatherToolStripMenuItem.Name = "WeatherToolStripMenuItem"
-        Me.WeatherToolStripMenuItem.Size = New System.Drawing.Size(127, 22)
+        Me.WeatherToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
         Me.WeatherToolStripMenuItem.Text = "Weather"
         '
         'EditToolStripMenuItem
@@ -149,6 +150,12 @@ Partial Class frmMain
         Me.niNotify.Text = "Matrix Editor"
         Me.niNotify.Visible = True
         '
+        'CountdownToolStripMenuItem
+        '
+        Me.CountdownToolStripMenuItem.Name = "CountdownToolStripMenuItem"
+        Me.CountdownToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.CountdownToolStripMenuItem.Text = "Countdown"
+        '
         'frmMain
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 15.0!)
@@ -185,4 +192,5 @@ Partial Class frmMain
     Friend WithEvents WeatherToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents niNotify As NotifyIcon
     Friend WithEvents SettingsToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents CountdownToolStripMenuItem As ToolStripMenuItem
 End Class

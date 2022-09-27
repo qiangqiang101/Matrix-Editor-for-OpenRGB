@@ -109,6 +109,12 @@
     </Compile>
     <Compile Include="Class\OpenMeteo.vb" />
     <Compile Include="Class\UserSettingData.vb" />
+    <Compile Include="frmAddCountdown.Designer.vb">
+      <DependentUpon>frmAddCountdown.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmAddCountdown.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="frmAddDatetime.Designer.vb">
       <DependentUpon>frmAddDatetime.vb</DependentUpon>
     </Compile>
@@ -152,6 +158,9 @@
     <Compile Include="Class\Logger.vb" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="frmAddCountdown.resx">
+      <DependentUpon>frmAddCountdown.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frmAddDatetime.resx">
       <DependentUpon>frmAddDatetime.vb</DependentUpon>
     </EmbeddedResource>
