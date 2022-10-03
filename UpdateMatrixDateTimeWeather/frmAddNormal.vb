@@ -40,7 +40,10 @@ Public Class frmAddNormal
     End Sub
 
     Private Sub frmAddNormal_Closing(sender As Object, e As CancelEventArgs) Handles Me.Closing
-        If Not frmMain.Visible Then frmMain.Show()
+        If Not frmMain.Visible Then
+            frmMain.Show()
+            frmMain.pause = False
+        End If
     End Sub
 
     Private Sub txtInterval_TextChanged(sender As Object, e As EventArgs) Handles txtInterval.TextChanged

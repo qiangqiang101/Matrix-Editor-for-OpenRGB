@@ -7,6 +7,10 @@
         txtLongitude.Text = UserSettings.Longitude
         txtMatrixWidth.Text = UserSettings.MatrixWidth
         cbAuto.Checked = UserSettings.AutoStart
+        cbStartMini.Checked = UserSettings.StartMinimized
+        txtIPAddresses.Text = UserSettings.IPAddresses
+        cbOnOnStart.Checked = UserSettings.ToggleOnOnStart
+        cbOffOnClose.Checked = UserSettings.ToggleOffOnClose
     End Sub
 
     Private Sub btnSave_Click(sender As Object, e As EventArgs) Handles btnSave.Click
@@ -18,7 +22,10 @@
                 .Longitude = txtLongitude.Text
                 .MatrixWidth = txtMatrixWidth.Text
                 .AutoStart = cbAuto.Checked
-
+                .StartMinimized = cbStartMini.Checked
+                .IPAddresses = txtIPAddresses.Text
+                .ToggleOnOnStart = cbOnOnStart.Checked
+                .ToggleOffOnClose = cbOffOnClose.Checked
                 .Save()
             End With
             UserSettings = New UserSettingData(UserSettingFile).Instance

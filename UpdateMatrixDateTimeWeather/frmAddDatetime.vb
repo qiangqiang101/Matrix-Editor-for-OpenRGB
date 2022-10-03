@@ -6,7 +6,10 @@ Public Class frmAddDatetime
     Public Property DateTimeMode() As Boolean
 
     Private Sub frmAddDatetime_Closing(sender As Object, e As CancelEventArgs) Handles Me.Closing
-        If Not frmMain.Visible Then frmMain.Show()
+        If Not frmMain.Visible Then
+            frmMain.Show()
+            frmMain.pause = False
+        End If
     End Sub
 
     Private Sub btnSave_Click(sender As Object, e As EventArgs) Handles btnSave.Click

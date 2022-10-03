@@ -20,6 +20,10 @@ Public Structure UserSettingData
     Public Longitude As String
     Public MatrixWidth As Integer
     Public AutoStart As Boolean
+    Public StartMinimized As Boolean
+    Public IPAddresses As String
+    Public ToggleOnOnStart As Boolean
+    Public ToggleOffOnClose As Boolean
 
     Public Data As List(Of TextStyles)
 

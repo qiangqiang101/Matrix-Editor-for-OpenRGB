@@ -31,16 +31,17 @@ Partial Class frmMain
         Me.TextToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.DateTimeToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.WeatherToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.CountdownToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.EditToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.DeleteToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
         Me.SaveToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.SettingsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.niNotify = New System.Windows.Forms.NotifyIcon(Me.components)
         Me.lvData = New UpdateMatrixDateTimeWeather.ListViewX()
         Me.chType = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
         Me.chText = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
         Me.chDuration = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
-        Me.niNotify = New System.Windows.Forms.NotifyIcon(Me.components)
-        Me.CountdownToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToggleWLEDOnOffToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuStrip1.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -54,10 +55,10 @@ Partial Class frmMain
         '
         'MenuStrip1
         '
-        Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.AddToolStripMenuItem, Me.EditToolStripMenuItem, Me.DeleteToolStripMenuItem1, Me.SaveToolStripMenuItem, Me.SettingsToolStripMenuItem})
+        Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.AddToolStripMenuItem, Me.EditToolStripMenuItem, Me.DeleteToolStripMenuItem1, Me.SaveToolStripMenuItem, Me.SettingsToolStripMenuItem, Me.ToggleWLEDOnOffToolStripMenuItem})
         Me.MenuStrip1.Location = New System.Drawing.Point(0, 0)
         Me.MenuStrip1.Name = "MenuStrip1"
-        Me.MenuStrip1.Size = New System.Drawing.Size(498, 24)
+        Me.MenuStrip1.Size = New System.Drawing.Size(604, 24)
         Me.MenuStrip1.TabIndex = 20
         Me.MenuStrip1.Text = "MenuStrip1"
         '
@@ -86,6 +87,12 @@ Partial Class frmMain
         Me.WeatherToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
         Me.WeatherToolStripMenuItem.Text = "Weather"
         '
+        'CountdownToolStripMenuItem
+        '
+        Me.CountdownToolStripMenuItem.Name = "CountdownToolStripMenuItem"
+        Me.CountdownToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.CountdownToolStripMenuItem.Text = "Countdown"
+        '
         'EditToolStripMenuItem
         '
         Me.EditToolStripMenuItem.Name = "EditToolStripMenuItem"
@@ -110,6 +117,15 @@ Partial Class frmMain
         Me.SettingsToolStripMenuItem.Size = New System.Drawing.Size(61, 20)
         Me.SettingsToolStripMenuItem.Text = "Settings"
         '
+        'niNotify
+        '
+        Me.niNotify.BalloonTipIcon = System.Windows.Forms.ToolTipIcon.Info
+        Me.niNotify.BalloonTipText = "Matrix Editor is still running on the background"
+        Me.niNotify.BalloonTipTitle = "Matrix Editor"
+        Me.niNotify.Icon = CType(resources.GetObject("niNotify.Icon"), System.Drawing.Icon)
+        Me.niNotify.Text = "Matrix Editor"
+        Me.niNotify.Visible = True
+        '
         'lvData
         '
         Me.lvData.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.chType, Me.chText, Me.chDuration})
@@ -118,7 +134,7 @@ Partial Class frmMain
         Me.lvData.GridLines = True
         Me.lvData.Location = New System.Drawing.Point(0, 24)
         Me.lvData.Name = "lvData"
-        Me.lvData.Size = New System.Drawing.Size(498, 401)
+        Me.lvData.Size = New System.Drawing.Size(604, 437)
         Me.lvData.SortColumn = 0
         Me.lvData.Sorting = System.Windows.Forms.SortOrder.Descending
         Me.lvData.TabIndex = 19
@@ -128,7 +144,7 @@ Partial Class frmMain
         'chType
         '
         Me.chType.Text = "Type"
-        Me.chType.Width = 100
+        Me.chType.Width = 200
         '
         'chText
         '
@@ -141,26 +157,17 @@ Partial Class frmMain
         Me.chDuration.Text = "Duration"
         Me.chDuration.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
         '
-        'niNotify
+        'ToggleWLEDOnOffToolStripMenuItem
         '
-        Me.niNotify.BalloonTipIcon = System.Windows.Forms.ToolTipIcon.Info
-        Me.niNotify.BalloonTipText = "Matrix Editor is still running on the background"
-        Me.niNotify.BalloonTipTitle = "Matrix Editor"
-        Me.niNotify.Icon = CType(resources.GetObject("niNotify.Icon"), System.Drawing.Icon)
-        Me.niNotify.Text = "Matrix Editor"
-        Me.niNotify.Visible = True
-        '
-        'CountdownToolStripMenuItem
-        '
-        Me.CountdownToolStripMenuItem.Name = "CountdownToolStripMenuItem"
-        Me.CountdownToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
-        Me.CountdownToolStripMenuItem.Text = "Countdown"
+        Me.ToggleWLEDOnOffToolStripMenuItem.Name = "ToggleWLEDOnOffToolStripMenuItem"
+        Me.ToggleWLEDOnOffToolStripMenuItem.Size = New System.Drawing.Size(129, 20)
+        Me.ToggleWLEDOnOffToolStripMenuItem.Text = "Toggle WLED On/Off"
         '
         'frmMain
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 15.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(498, 425)
+        Me.ClientSize = New System.Drawing.Size(604, 461)
         Me.Controls.Add(Me.lvData)
         Me.Controls.Add(Me.MenuStrip1)
         Me.Font = New System.Drawing.Font("Segoe UI", 9.0!)
@@ -193,4 +200,7 @@ Partial Class frmMain
     Friend WithEvents niNotify As NotifyIcon
     Friend WithEvents SettingsToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents CountdownToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents StandardDateTimeToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents ChineseLunisolarDateTimeToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents ToggleWLEDOnOffToolStripMenuItem As ToolStripMenuItem
 End Class

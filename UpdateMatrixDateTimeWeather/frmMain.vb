@@ -1,10 +1,12 @@
-﻿Imports System.IO
+﻿Imports System.Globalization
+Imports System.IO
 Imports System.Text
 
 Public Class frmMain
 
     Dim mode As Integer = 0
     Dim maxMode As Integer = 0
+    Public pause As Boolean = False
 
     Public LastEditingItem As ListViewItem = Nothing
 
@@ -46,6 +48,8 @@ Public Class frmMain
 
         Helper.openMeteo = GetData(UserSettings.Latitude, UserSettings.Longitude)
         wTimer.Start()
+
+        If UserSettings.StartMinimized Then Me.WindowState = FormWindowState.Minimized
     End Sub
 
     Private Sub lvData_MouseDoubleClick(sender As Object, e As MouseEventArgs) Handles lvData.MouseDoubleClick
@@ -66,7 +70,7 @@ Public Class frmMain
             Case TextType.Datetime
                 Dim newCT As New frmAddDatetime
                 With newCT
-                    .Text = "Edit Date Time"
+                    .Text = "Edit Standard Date Time"
                     .Label3.Text = "Date Time format"
                     .EditMode = True
                     .DateTimeMode = True
@@ -97,31 +101,34 @@ Public Class frmMain
                 newCT.Show()
         End Select
         Me.Hide()
+        pause = True
     End Sub
 
     Private Sub Timer1_Tick(sender As Object, e As EventArgs) Handles Timer1.Tick
-        mode += 1
-        If mode > maxMode Then mode = 0
+        If Not pause Then
+            mode += 1
+            If mode > maxMode Then mode = 0
 
-        If lvData.Items.Count > 0 Then
-            Dim nextTS As TextStyles = lvData.Items(mode).Tag
-            Select Case nextTS.TextType
-                Case TextType.CustomText
-                    SaveFile(nextTS.TextString)
-                Case TextType.Datetime
-                    SaveFile(Now.ToString(nextTS.TextString))
-                Case TextType.Weather
-                    Dim stringBuilder As String = nextTS.TextString.Replace("<temp>", $"{Helper.openMeteo.Temperature}°C").Replace("<weather>", Helper.openMeteo.WeatherName).
-                        Replace("<code>", Helper.openMeteo.WeatherCode).Replace("<speed>", $"{Helper.openMeteo.WindSpeed}Km/h").Replace("<direction>", $"{Helper.openMeteo.WindDirection}°")
+            If lvData.Items.Count > 0 Then
+                Dim nextTS As TextStyles = lvData.Items(mode).Tag
+                Select Case nextTS.TextType
+                    Case TextType.CustomText
+                        SaveFile(nextTS.TextString)
+                    Case TextType.Datetime
+                        SaveFile(Now.ToString(nextTS.TextString))
+                    Case TextType.Weather
+                        Dim stringBuilder As String = nextTS.TextString.Replace("<temp>", $"{Helper.openMeteo.Temperature}°C").Replace("<weather>", Helper.openMeteo.WeatherName).
+                            Replace("<code>", Helper.openMeteo.WeatherCode).Replace("<speed>", $"{Helper.openMeteo.WindSpeed}Km/h").Replace("<direction>", $"{Helper.openMeteo.WindDirection}°")
 
-                    SaveFile(stringBuilder)
-                Case TextType.Countdown
-                    Dim timeSpan As TimeSpan = (nextTS.DateTime - Now)
-                    Dim stringBuilder As String = nextTS.TextString.Replace("<day>", timeSpan.Days).Replace("<hour>", timeSpan.Hours).Replace("<minute>", timeSpan.Minutes).
-                        Replace("<second>", timeSpan.Seconds).Replace("<millisecond>", timeSpan.Milliseconds).Replace("<tick>", timeSpan.Ticks)
-                    SaveFile(stringBuilder)
-            End Select
-            Timer1.Interval = nextTS.Interval
+                        SaveFile(stringBuilder)
+                    Case TextType.Countdown
+                        Dim timeSpan As TimeSpan = (nextTS.DateTime - Now)
+                        Dim stringBuilder As String = nextTS.TextString.Replace("<day>", timeSpan.Days).Replace("<hour>", timeSpan.Hours).Replace("<minute>", timeSpan.Minutes).
+                            Replace("<second>", timeSpan.Seconds).Replace("<millisecond>", timeSpan.Milliseconds).Replace("<tick>", timeSpan.Ticks)
+                        SaveFile(stringBuilder)
+                End Select
+                Timer1.Interval = nextTS.Interval
+            End If
         End If
     End Sub
 
@@ -129,7 +136,7 @@ Public Class frmMain
         Try
             Using fs As FileStream = File.Create(OutputFile)
                 Using sr As New StreamWriter(fs, Encoding.UTF8) 'Encoding.GetEncoding("Windows-1252"))
-                    sr.WriteLine($"{text.PadLeft((UserSettings.MatrixWidth / 2) + (text.Length / 2))} ")
+                    sr.WriteLine($"{text.PadLeft((UserSettings.MatrixWidth / 2) + (text.Length / 2))}")
                 End Using
             End Using
         Catch ex As Exception
@@ -153,20 +160,7 @@ Public Class frmMain
         End With
         newCT.Show()
         Hide()
-    End Sub
-
-    Private Sub DateTimeToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles DateTimeToolStripMenuItem.Click
-        Dim newCT As New frmAddDatetime
-        With newCT
-            .Text = "Add Date Time"
-            .Label3.Text = "Date Time format"
-            .EditMode = False
-            .DateTimeMode = True
-            .txtDateFormat.Text = "hh:mmtt dddd, dd MMM"
-            .txtInterval.Text = 5000
-        End With
-        newCT.Show()
-        Hide()
+        pause = True
     End Sub
 
     Private Sub WeatherToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles WeatherToolStripMenuItem.Click
@@ -181,6 +175,7 @@ Public Class frmMain
         End With
         newCT.Show()
         Hide()
+        pause = True
     End Sub
 
     Private Sub EditToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles EditToolStripMenuItem.Click
@@ -201,7 +196,7 @@ Public Class frmMain
             Case TextType.Datetime
                 Dim newCT As New frmAddDatetime
                 With newCT
-                    .Text = "Edit Date Time"
+                    .Text = "Edit Standard Date Time"
                     .Label3.Text = "Date Time format"
                     .EditMode = True
                     .DateTimeMode = True
@@ -232,6 +227,7 @@ Public Class frmMain
                 newCT.Show()
         End Select
         Me.Hide()
+        pause = True
     End Sub
 
     Private Sub DeleteToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles DeleteToolStripMenuItem1.Click
@@ -298,5 +294,31 @@ Public Class frmMain
         End With
         newCT.Show()
         Hide()
+        pause = True
+    End Sub
+
+    Private Sub DateTimeToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles DateTimeToolStripMenuItem.Click
+        Dim newCT As New frmAddDatetime
+        With newCT
+            .Text = "Add Standard Date Time"
+            .Label3.Text = "Date Time format"
+            .EditMode = False
+            .DateTimeMode = True
+            .txtDateFormat.Text = "hh:mmtt dddd, dd MMM"
+            .txtInterval.Text = 5000
+        End With
+        newCT.Show()
+        Hide()
+        pause = True
+    End Sub
+
+    Private Sub ToggleWLEDOnOffToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ToggleWLEDOnOffToolStripMenuItem.Click
+        Try
+            For Each device In UserSettings.IPAddresses.Split(","c)
+                ToggleWLED(device)
+            Next
+        Catch ex As Exception
+            MsgBox(ex.Message, MsgBoxStyle.Critical, "Error")
+        End Try
     End Sub
 End Class

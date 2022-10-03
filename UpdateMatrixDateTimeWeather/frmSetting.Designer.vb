@@ -30,6 +30,12 @@ Partial Class frmSetting
         Me.txtMatrixWidth = New System.Windows.Forms.TextBox()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.cbAuto = New System.Windows.Forms.CheckBox()
+        Me.cbStartMini = New System.Windows.Forms.CheckBox()
+        Me.txtIPAddresses = New System.Windows.Forms.TextBox()
+        Me.Label2 = New System.Windows.Forms.Label()
+        Me.Label3 = New System.Windows.Forms.Label()
+        Me.cbOffOnClose = New System.Windows.Forms.CheckBox()
+        Me.cbOnOnStart = New System.Windows.Forms.CheckBox()
         Me.SuspendLayout()
         '
         'Label6
@@ -59,10 +65,10 @@ Partial Class frmSetting
         '
         'btnSave
         '
-        Me.btnSave.Location = New System.Drawing.Point(417, 96)
+        Me.btnSave.Location = New System.Drawing.Point(417, 215)
         Me.btnSave.Name = "btnSave"
         Me.btnSave.Size = New System.Drawing.Size(75, 23)
-        Me.btnSave.TabIndex = 4
+        Me.btnSave.TabIndex = 8
         Me.btnSave.Text = "Save"
         Me.btnSave.UseVisualStyleBackColor = True
         '
@@ -93,12 +99,74 @@ Partial Class frmSetting
         Me.cbAuto.Text = "Start with Windows"
         Me.cbAuto.UseVisualStyleBackColor = True
         '
+        'cbStartMini
+        '
+        Me.cbStartMini.AutoSize = True
+        Me.cbStartMini.Location = New System.Drawing.Point(138, 95)
+        Me.cbStartMini.Name = "cbStartMini"
+        Me.cbStartMini.Size = New System.Drawing.Size(109, 19)
+        Me.cbStartMini.TabIndex = 4
+        Me.cbStartMini.Text = "Start Minimized"
+        Me.cbStartMini.UseVisualStyleBackColor = True
+        '
+        'txtIPAddresses
+        '
+        Me.txtIPAddresses.Location = New System.Drawing.Point(138, 120)
+        Me.txtIPAddresses.Name = "txtIPAddresses"
+        Me.txtIPAddresses.Size = New System.Drawing.Size(354, 23)
+        Me.txtIPAddresses.TabIndex = 5
+        Me.txtIPAddresses.Text = "192.168.0.5,192.168.0.6"
+        '
+        'Label2
+        '
+        Me.Label2.AutoSize = True
+        Me.Label2.Location = New System.Drawing.Point(12, 123)
+        Me.Label2.Name = "Label2"
+        Me.Label2.Size = New System.Drawing.Size(105, 15)
+        Me.Label2.TabIndex = 35
+        Me.Label2.Text = "Devices IP Address"
+        '
+        'Label3
+        '
+        Me.Label3.AutoSize = True
+        Me.Label3.Location = New System.Drawing.Point(135, 146)
+        Me.Label3.Name = "Label3"
+        Me.Label3.Size = New System.Drawing.Size(136, 15)
+        Me.Label3.TabIndex = 36
+        Me.Label3.Text = "Separate with comma (,)"
+        '
+        'cbOffOnClose
+        '
+        Me.cbOffOnClose.AutoSize = True
+        Me.cbOffOnClose.Location = New System.Drawing.Point(138, 189)
+        Me.cbOffOnClose.Name = "cbOffOnClose"
+        Me.cbOffOnClose.Size = New System.Drawing.Size(193, 19)
+        Me.cbOffOnClose.TabIndex = 7
+        Me.cbOffOnClose.Text = "Send Toggle Off signal on Close"
+        Me.cbOffOnClose.UseVisualStyleBackColor = True
+        '
+        'cbOnOnStart
+        '
+        Me.cbOnOnStart.AutoSize = True
+        Me.cbOnOnStart.Location = New System.Drawing.Point(138, 164)
+        Me.cbOnOnStart.Name = "cbOnOnStart"
+        Me.cbOnOnStart.Size = New System.Drawing.Size(187, 19)
+        Me.cbOnOnStart.TabIndex = 6
+        Me.cbOnOnStart.Text = "Send Toggle On signal on Start"
+        Me.cbOnOnStart.UseVisualStyleBackColor = True
+        '
         'frmSetting
         '
         Me.AcceptButton = Me.btnSave
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 15.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(504, 131)
+        Me.ClientSize = New System.Drawing.Size(504, 250)
+        Me.Controls.Add(Me.cbOffOnClose)
+        Me.Controls.Add(Me.cbOnOnStart)
+        Me.Controls.Add(Me.Label3)
+        Me.Controls.Add(Me.Label2)
+        Me.Controls.Add(Me.txtIPAddresses)
+        Me.Controls.Add(Me.cbStartMini)
         Me.Controls.Add(Me.cbAuto)
         Me.Controls.Add(Me.Label1)
         Me.Controls.Add(Me.txtMatrixWidth)
@@ -126,4 +194,10 @@ Partial Class frmSetting
     Friend WithEvents txtMatrixWidth As TextBox
     Friend WithEvents Label1 As Label
     Friend WithEvents cbAuto As CheckBox
+    Friend WithEvents cbStartMini As CheckBox
+    Friend WithEvents txtIPAddresses As TextBox
+    Friend WithEvents Label2 As Label
+    Friend WithEvents Label3 As Label
+    Friend WithEvents cbOffOnClose As CheckBox
+    Friend WithEvents cbOnOnStart As CheckBox
 End Class

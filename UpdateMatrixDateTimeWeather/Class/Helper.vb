@@ -1,4 +1,7 @@
-﻿Imports System.Runtime.CompilerServices
+﻿Imports System.IO
+Imports System.Net
+Imports System.Runtime.CompilerServices
+Imports System.Text
 
 Module Helper
 
@@ -60,5 +63,51 @@ Module Helper
                 Return "Unknown"
         End Select
     End Function
+
+    Private xx As Encoding = Encoding.GetEncoding("GB2312")
+    <Extension>
+    Public Function IsWideEastAsianWidth(ByVal c As Char) As Boolean
+        Dim byteCount As Integer = xx.GetByteCount(c.ToString())
+        Return byteCount = 2
+    End Function
+
+    <Extension>
+    Public Function LengthX(str As String) As Integer
+        Dim textLength As Integer = 0
+        For Each c As Char In str
+            If c.IsWideEastAsianWidth Then textLength += 2 Else textLength += 1
+        Next
+        Return textLength
+    End Function
+
+    Public Sub ToggleWLED(ip As String, Optional timeout As Integer = 5000, Optional toggle As Integer = 2)
+        Dim xml As String = ""
+
+        Dim query As String = $"http://{ip}/win&T={toggle}"
+
+        Try
+            Dim req As HttpWebRequest = WebRequest.Create(query)
+            With req
+                .Timeout = timeout
+                .Credentials = CredentialCache.DefaultCredentials
+                .Accept = "*/*"
+                .Method = "POST"
+            End With
+            Dim res As HttpWebResponse = req.GetResponse()
+            Dim reader As New StreamReader(res.GetResponseStream)
+            xml = reader.ReadToEnd
+        Catch ex As Exception
+            Logger.Log(ex)
+            ToggleWLED(ip, timeout, toggle)
+        End Try
+    End Sub
+
+    Public Sub TurnOnWLED(ip As String, Optional timeout As Integer = 5000)
+        ToggleWLED(ip, timeout, 1)
+    End Sub
+
+    Public Sub TurnOffWLED(ip As String, Optional timeout As Integer = 5000)
+        ToggleWLED(ip, timeout, 0)
+    End Sub
 
 End Module
