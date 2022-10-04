@@ -1,4 +1,5 @@
-﻿Imports System.Globalization
+﻿Imports System.ComponentModel
+Imports System.Globalization
 Imports System.IO
 Imports System.Text
 
@@ -49,59 +50,71 @@ Public Class frmMain
         Helper.openMeteo = GetData(UserSettings.Latitude, UserSettings.Longitude)
         wTimer.Start()
 
-        If UserSettings.StartMinimized Then Me.WindowState = FormWindowState.Minimized
+        If UserSettings.ToggleOnOnStart Then
+            Try
+                For Each device In UserSettings.IPAddresses.Split(","c)
+                    TurnOnWLED(device)
+                Next
+            Catch ex As Exception
+                MsgBox(ex.Message, MsgBoxStyle.Critical, "Error")
+            End Try
+        End If
     End Sub
 
     Private Sub lvData_MouseDoubleClick(sender As Object, e As MouseEventArgs) Handles lvData.MouseDoubleClick
-        Dim item As ListViewItem = lvData.SelectedItems.Item(0)
-        LastEditingItem = item
-        Dim ts As TextStyles = item.Tag
-        Select Case ts.TextType
-            Case TextType.CustomText
-                Dim newCT As New frmAddNormal
-                With newCT
-                    .Label5.Text = "Text"
-                    .Text = "Edit Text"
-                    .EditMode = True
-                    .txtCustomText.Text = ts.TextString
-                    .txtInterval.Text = ts.Interval
-                End With
-                newCT.Show()
-            Case TextType.Datetime
-                Dim newCT As New frmAddDatetime
-                With newCT
-                    .Text = "Edit Standard Date Time"
-                    .Label3.Text = "Date Time format"
-                    .EditMode = True
-                    .DateTimeMode = True
-                    .txtDateFormat.Text = ts.TextString
-                    .txtInterval.Text = ts.Interval
-                End With
-                newCT.Show()
-            Case TextType.Weather
-                Dim newCT As New frmAddDatetime
-                With newCT
-                    .Text = "Edit Weather"
-                    .Label3.Text = "Weather format"
-                    .EditMode = True
-                    .DateTimeMode = False
-                    .txtDateFormat.Text = ts.TextString
-                    .txtInterval.Text = ts.Interval
-                End With
-                newCT.Show()
-            Case TextType.Countdown
-                Dim newCT As New frmAddCountdown
-                With newCT
-                    .Text = "Edit Countdown"
-                    .EditMode = True
-                    .txtDateFormat.Text = ts.TextString
-                    .dtpDate.Value = ts.DateTime
-                    .txtInterval.Text = ts.Interval
-                End With
-                newCT.Show()
-        End Select
-        Me.Hide()
-        pause = True
+        If lvData.SelectedItems.Count > 1 Then
+            MsgBox("You can only edit one item at a time.", MsgBoxStyle.Exclamation, "Error")
+        Else
+            Dim item As ListViewItem = lvData.SelectedItems.Item(0)
+            LastEditingItem = item
+            Dim ts As TextStyles = item.Tag
+            Select Case ts.TextType
+                Case TextType.CustomText
+                    Dim newCT As New frmAddNormal
+                    With newCT
+                        .Label5.Text = "Text"
+                        .Text = "Edit Text"
+                        .EditMode = True
+                        .txtCustomText.Text = ts.TextString
+                        .txtInterval.Text = ts.Interval
+                    End With
+                    newCT.Show()
+                Case TextType.Datetime
+                    Dim newCT As New frmAddDatetime
+                    With newCT
+                        .Text = "Edit Standard Date Time"
+                        .Label3.Text = "Date Time format"
+                        .EditMode = True
+                        .DateTimeMode = True
+                        .txtDateFormat.Text = ts.TextString
+                        .txtInterval.Text = ts.Interval
+                    End With
+                    newCT.Show()
+                Case TextType.Weather
+                    Dim newCT As New frmAddDatetime
+                    With newCT
+                        .Text = "Edit Weather"
+                        .Label3.Text = "Weather format"
+                        .EditMode = True
+                        .DateTimeMode = False
+                        .txtDateFormat.Text = ts.TextString
+                        .txtInterval.Text = ts.Interval
+                    End With
+                    newCT.Show()
+                Case TextType.Countdown
+                    Dim newCT As New frmAddCountdown
+                    With newCT
+                        .Text = "Edit Countdown"
+                        .EditMode = True
+                        .txtDateFormat.Text = ts.TextString
+                        .dtpDate.Value = ts.DateTime
+                        .txtInterval.Text = ts.Interval
+                    End With
+                    newCT.Show()
+            End Select
+            Me.Hide()
+            pause = True
+        End If
     End Sub
 
     Private Sub Timer1_Tick(sender As Object, e As EventArgs) Handles Timer1.Tick
@@ -136,7 +149,7 @@ Public Class frmMain
         Try
             Using fs As FileStream = File.Create(OutputFile)
                 Using sr As New StreamWriter(fs, Encoding.UTF8) 'Encoding.GetEncoding("Windows-1252"))
-                    sr.WriteLine($"{text.PadLeft((UserSettings.MatrixWidth / 2) + (text.Length / 2))}")
+                    sr.WriteLine($"{text.PadLeft((UserSettings.MatrixWidth / 2) + (text.Length / 2))} ")
                 End Using
             End Using
         Catch ex As Exception
@@ -179,62 +192,66 @@ Public Class frmMain
     End Sub
 
     Private Sub EditToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles EditToolStripMenuItem.Click
-        Dim item As ListViewItem = lvData.SelectedItems.Item(0)
-        LastEditingItem = item
-        Dim ts As TextStyles = item.Tag
-        Select Case ts.TextType
-            Case TextType.CustomText
-                Dim newCT As New frmAddNormal
-                With newCT
-                    .Label5.Text = "Text"
-                    .Text = "Edit Text"
-                    .EditMode = True
-                    .txtCustomText.Text = ts.TextString
-                    .txtInterval.Text = ts.Interval
-                End With
-                newCT.Show()
-            Case TextType.Datetime
-                Dim newCT As New frmAddDatetime
-                With newCT
-                    .Text = "Edit Standard Date Time"
-                    .Label3.Text = "Date Time format"
-                    .EditMode = True
-                    .DateTimeMode = True
-                    .txtDateFormat.Text = ts.TextString
-                    .txtInterval.Text = ts.Interval
-                End With
-                newCT.Show()
-            Case TextType.Weather
-                Dim newCT As New frmAddDatetime
-                With newCT
-                    .Text = "Edit Weather"
-                    .Label3.Text = "Weather format"
-                    .EditMode = True
-                    .DateTimeMode = False
-                    .txtDateFormat.Text = ts.TextString
-                    .txtInterval.Text = ts.Interval
-                End With
-                newCT.Show()
-            Case TextType.Countdown
-                Dim newCT As New frmAddCountdown
-                With newCT
-                    .Text = "Edit Countdown"
-                    .EditMode = True
-                    .txtDateFormat.Text = ts.TextString
-                    .dtpDate.Value = ts.DateTime
-                    .txtInterval.Text = ts.Interval
-                End With
-                newCT.Show()
-        End Select
-        Me.Hide()
-        pause = True
+        If lvData.SelectedItems.Count > 1 Then
+            MsgBox("You can only edit one item at a time.", MsgBoxStyle.Exclamation, "Error")
+        Else
+            Dim item As ListViewItem = lvData.SelectedItems.Item(0)
+            LastEditingItem = item
+            Dim ts As TextStyles = item.Tag
+            Select Case ts.TextType
+                Case TextType.CustomText
+                    Dim newCT As New frmAddNormal
+                    With newCT
+                        .Label5.Text = "Text"
+                        .Text = "Edit Text"
+                        .EditMode = True
+                        .txtCustomText.Text = ts.TextString
+                        .txtInterval.Text = ts.Interval
+                    End With
+                    newCT.Show()
+                Case TextType.Datetime
+                    Dim newCT As New frmAddDatetime
+                    With newCT
+                        .Text = "Edit Standard Date Time"
+                        .Label3.Text = "Date Time format"
+                        .EditMode = True
+                        .DateTimeMode = True
+                        .txtDateFormat.Text = ts.TextString
+                        .txtInterval.Text = ts.Interval
+                    End With
+                    newCT.Show()
+                Case TextType.Weather
+                    Dim newCT As New frmAddDatetime
+                    With newCT
+                        .Text = "Edit Weather"
+                        .Label3.Text = "Weather format"
+                        .EditMode = True
+                        .DateTimeMode = False
+                        .txtDateFormat.Text = ts.TextString
+                        .txtInterval.Text = ts.Interval
+                    End With
+                    newCT.Show()
+                Case TextType.Countdown
+                    Dim newCT As New frmAddCountdown
+                    With newCT
+                        .Text = "Edit Countdown"
+                        .EditMode = True
+                        .txtDateFormat.Text = ts.TextString
+                        .dtpDate.Value = ts.DateTime
+                        .txtInterval.Text = ts.Interval
+                    End With
+                    newCT.Show()
+            End Select
+            Me.Hide()
+            pause = True
+        End If
     End Sub
 
     Private Sub DeleteToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles DeleteToolStripMenuItem1.Click
-        If lvData.SelectedItems.Count <> 0 Then
-            Dim result As DialogResult = MessageBox.Show($"Are you sure you want to delete?", "Delete", MessageBoxButtons.YesNo)
-            If result = DialogResult.Yes Then lvData.Items.Remove(lvData.SelectedItems.Item(0))
-        End If
+        For Each item As ListViewItem In lvData.SelectedItems
+            Dim result As DialogResult = MessageBox.Show($"Are you sure you want to delete {item.SubItems(1).Text} type {item.SubItems(0).Text}?", "Delete", MessageBoxButtons.YesNo)
+            If result = DialogResult.Yes Then lvData.Items.Remove(item)
+        Next
     End Sub
 
     Private Sub SaveToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SaveToolStripMenuItem.Click
@@ -251,6 +268,10 @@ Public Class frmMain
                 .Longitude = UserSettings.Longitude
                 .MatrixWidth = UserSettings.MatrixWidth
                 .AutoStart = UserSettings.AutoStart
+                .StartMinimized = UserSettings.StartMinimized
+                .IPAddresses = UserSettings.IPAddresses
+                .ToggleOnOnStart = UserSettings.ToggleOnOnStart
+                .ToggleOffOnClose = UserSettings.ToggleOffOnClose
                 .Save()
             End With
             UserSettings = New UserSettingData(UserSettingFile).Instance
@@ -320,5 +341,26 @@ Public Class frmMain
         Catch ex As Exception
             MsgBox(ex.Message, MsgBoxStyle.Critical, "Error")
         End Try
+    End Sub
+
+    Private Sub frmMain_Closing(sender As Object, e As CancelEventArgs) Handles Me.Closing
+        If UserSettings.ToggleOffOnClose Then
+            Try
+                For Each device In UserSettings.IPAddresses.Split(","c)
+                    TurnOffWLED(device)
+                Next
+            Catch ex As Exception
+                MsgBox(ex.Message, MsgBoxStyle.Critical, "Error")
+            End Try
+        End If
+    End Sub
+
+    Private Sub frmMain_Shown(sender As Object, e As EventArgs) Handles Me.Shown
+        If UserSettings.StartMinimized Then
+            Me.WindowState = FormWindowState.Minimized
+            niNotify.Visible = True
+            Me.Hide()
+            niNotify.ShowBalloonTip(500)
+        End If
     End Sub
 End Class
