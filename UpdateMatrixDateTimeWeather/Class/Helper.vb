@@ -80,25 +80,27 @@ Module Helper
         Return textLength
     End Function
 
-    Public Sub ToggleWLED(ip As String, Optional timeout As Integer = 5000, Optional toggle As Integer = 2)
+    Public Sub ToggleWLED(ip As String, Optional timeout As Integer = 5000, Optional toggle As Integer = 2, Optional retry As Integer = 5)
         Dim xml As String = ""
 
         Dim query As String = $"http://{ip}/win&T={toggle}"
 
         Try
-            Dim req As HttpWebRequest = WebRequest.Create(query)
-            With req
-                .Timeout = timeout
-                .Credentials = CredentialCache.DefaultCredentials
-                .Accept = "*/*"
-                .Method = "POST"
-            End With
-            Dim res As HttpWebResponse = req.GetResponse()
-            Dim reader As New StreamReader(res.GetResponseStream)
-            xml = reader.ReadToEnd
+            If retry >= 1 Then
+                Dim req As HttpWebRequest = WebRequest.Create(query)
+                With req
+                    .Timeout = timeout
+                    .Credentials = CredentialCache.DefaultCredentials
+                    .Accept = "*/*"
+                    .Method = "POST"
+                End With
+                Dim res As HttpWebResponse = req.GetResponse()
+                Dim reader As New StreamReader(res.GetResponseStream)
+                xml = reader.ReadToEnd
+            End If
         Catch ex As Exception
             Logger.Log(ex)
-            ToggleWLED(ip, timeout, toggle)
+            ToggleWLED(ip, timeout, toggle, retry - 1)
         End Try
     End Sub
 
